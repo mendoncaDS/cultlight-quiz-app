@@ -12,7 +12,7 @@ def main():
     # Render image from URL in Streamlit
     st.image("https://cultlight.com.br/wp-content/uploads/logo-cultlight-horizontal.png", width=200)
 
-    st.subheader("Quiz Cultlight")
+    st.subheader("Quiz da Cultlight")
 
     # Initialize session state
     if 'history' not in st.session_state:
