@@ -1,8 +1,18 @@
 import streamlit as st
 from quiz_data import quiz
 
+# Set the page title and favicon
+st.set_page_config(
+    page_title="Quiz da Cultlight",
+    page_icon="https://cultlight.com.br/wp-content/uploads/logo-padrao-150x150.png"
+)
+
 def main():
-    st.title("Dynamic Streamlit Quiz")
+
+    # Render image from URL in Streamlit
+    st.image("https://cultlight.com.br/wp-content/uploads/logo-cultlight-horizontal.png", width=200)
+
+    st.subheader("Quiz Cultlight")
 
     # Initialize session state
     if 'history' not in st.session_state:
