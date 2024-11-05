@@ -41,11 +41,11 @@ def main():
 
     if current_node['options']:
         selected_option = st.radio("", current_node['options'], key=len(st.session_state.history))
-        if st.button("Next"):
+        if st.button("Próxima pergunta"):
             st.session_state.history.append(selected_option)
             st.rerun()
     else:
-        if st.button("Restart Quiz"):
+        if st.button("Recomeçar o Quiz"):
             st.session_state.history = []
             st.rerun()
 
