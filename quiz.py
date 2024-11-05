@@ -60,6 +60,8 @@ def main():
             key=f"question_{question_number}"
         )
 
+        st.write("---")
+
         if st.button("Próxima pergunta"):
             if selected_option:
                 # Save the user's answer
