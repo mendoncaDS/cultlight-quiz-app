@@ -16,8 +16,6 @@ st.markdown("""
     """,unsafe_allow_html=True)
 
 def main():
-
-    # Render image from URL in Streamlit
     st.image("https://cultlight.com.br/wp-content/uploads/logo-cultlight-horizontal.png", width=200)
 
     st.subheader("Quiz da Cultlight")
@@ -26,27 +24,45 @@ def main():
     st.write("---")
 
     # Initialize session state
-    if 'history' not in st.session_state:
-        st.session_state.history = []
+    if 'current_question' not in st.session_state:
+        st.session_state.current_question = 0
+        st.session_state.answers = {}
 
-    # Function to traverse the quiz tree
-    def get_current_node(quiz_structure, history):
-        node = quiz_structure
-        for answer in history:
-            node = node['next'][answer]
-        return node
+    # Get the current question
+    if st.session_state.current_question < len(quiz):
+        question_data = quiz[st.session_state.current_question]
+        st.write(f"**Pergunta {st.session_state.current_question + 1}: {question_data['question']}**")
 
-    current_node = get_current_node(quiz, st.session_state.history)
-    st.subheader(f"**{current_node['question']}**")
+        # Display options as radio buttons
+        options = question_data['options']
+        option_keys = list(options.keys())
+        selected_option = st.radio(
+            "",
+            options=[f"{key}) {options[key]}" for key in option_keys],
+            key=f"question_{st.session_state.current_question}"
+        )
 
-    if current_node['options']:
-        selected_option = st.radio("", current_node['options'], key=len(st.session_state.history))
         if st.button("Próxima pergunta"):
-            st.session_state.history.append(selected_option)
+            # Extract the selected key from the displayed option
+            selected_key = selected_option.split(')')[0]
+            # Save the answer
+            st.session_state.answers[st.session_state.current_question] = selected_key
+            # Move to the next question
+            st.session_state.current_question += 1
             st.rerun()
     else:
+        st.subheader("Parabéns! Você concluiu o quiz.")
+        st.write("Suas respostas:")
+        for idx, answer_key in st.session_state.answers.items():
+            question = quiz[idx]['question']
+            selected_option_text = quiz[idx]['options'][answer_key]
+            st.write(f"**Pergunta {idx + 1}:** {question}")
+            st.write(f"Sua resposta: {answer_key}) {selected_option_text}")
+            st.write("---")
+
         if st.button("Recomeçar o Quiz"):
-            st.session_state.history = []
+            st.session_state.current_question = 0
+            st.session_state.answers = {}
             st.rerun()
 
 if __name__ == "__main__":
