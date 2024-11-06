@@ -1,6 +1,4 @@
-# quiz_data.py
 
-# Define the quiz as a list of questions
 quiz = [
     {
         'question': 'Qual é o principal indicador de que a planta de cannabis está pronta para a colheita?',
